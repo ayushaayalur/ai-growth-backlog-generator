@@ -6,14 +6,9 @@
 const API_BASE_URL = process.env.REACT_APP_API_URL || 
   (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://ai-growth-backlog-generator.onrender.com');
 
-console.log('API_BASE_URL:', API_BASE_URL);
-console.log('window.location.hostname:', window.location.hostname);
-
 // Fallback for when backend is not available
 const isBackendAvailable = async () => {
   try {
-    console.log('Checking backend availability at:', `${API_BASE_URL}/health`);
-    
     // Create a timeout promise
     const timeoutPromise = new Promise((_, reject) => {
       setTimeout(() => reject(new Error('Health check timeout')), 5000);
@@ -29,7 +24,6 @@ const isBackendAvailable = async () => {
 
     // Race between fetch and timeout
     const response = await Promise.race([fetchPromise, timeoutPromise]);
-    console.log('Health check response:', response.status, response.ok);
     return response.ok;
   } catch (error) {
     console.warn('Backend health check failed:', error);
@@ -45,10 +39,8 @@ export const apiService = {
    */
   async analyzeScreenshot(screenshotFile) {
     try {
-      console.log('Starting analyzeScreenshot...');
       // Check if backend is available first
       const backendAvailable = await isBackendAvailable();
-      console.log('Backend available:', backendAvailable);
       if (!backendAvailable) {
         throw new Error('Backend service is currently unavailable. Please try again in a few minutes.');
       }
