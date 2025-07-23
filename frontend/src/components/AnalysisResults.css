@@ -1,0 +1,277 @@
+.analysis-results {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.results-header h2 {
+  color: #333;
+  margin: 0;
+}
+
+.summary-stats {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.stat {
+  text-align: center;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-width: 80px;
+}
+
+.stat-number {
+  display: block;
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.stat-label {
+  display: block;
+  font-size: 12px;
+  color: #666;
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+
+.export-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.export-button:hover {
+  background-color: #218838;
+}
+
+.results-table-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.results-table th {
+  background-color: #f8f9fa;
+  padding: 15px 10px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #dee2e6;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.results-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+}
+
+.results-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.priority-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.priority-badge.high {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.priority-badge.medium {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.priority-badge.low {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.idea-title {
+  font-weight: 600;
+  color: #333;
+  max-width: 200px;
+}
+
+.idea-hypothesis {
+  max-width: 250px;
+  color: #666;
+  font-style: italic;
+}
+
+.category-badge {
+  background-color: #e9ecef;
+  color: #495057;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.ice-score {
+  text-align: center;
+  font-weight: 600;
+  min-width: 50px;
+}
+
+.ice-score.impact {
+  color: #28a745;
+}
+
+.ice-score.confidence {
+  color: #007bff;
+}
+
+.ice-score.effort {
+  color: #dc3545;
+}
+
+.ice-score.total {
+  color: #6f42c1;
+  font-size: 16px;
+}
+
+.estimated-lift {
+  color: #28a745;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.implementation-time {
+  color: #6c757d;
+  font-size: 13px;
+}
+
+.implementation-steps {
+  max-width: 200px;
+}
+
+.implementation-steps details {
+  cursor: pointer;
+}
+
+.implementation-steps summary {
+  color: #007bff;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.implementation-steps summary:hover {
+  color: #0056b3;
+}
+
+.steps-content {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.step {
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.no-steps {
+  color: #6c757d;
+  font-style: italic;
+}
+
+.results-footer {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.results-footer p {
+  margin: 8px 0;
+  color: #333;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .results-table-container {
+    overflow-x: auto;
+  }
+  
+  .results-table {
+    min-width: 800px;
+  }
+  
+  .results-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .summary-stats {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .analysis-results {
+    padding: 15px;
+  }
+  
+  .summary-stats {
+    gap: 10px;
+  }
+  
+  .stat {
+    min-width: 60px;
+    padding: 10px;
+  }
+  
+  .stat-number {
+    font-size: 20px;
+  }
+  
+  .results-table th,
+  .results-table td {
+    padding: 8px 6px;
+    font-size: 12px;
+  }
+  
+  .idea-title,
+  .idea-hypothesis {
+    max-width: 150px;
+  }
+} 
