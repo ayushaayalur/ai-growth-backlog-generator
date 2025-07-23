@@ -4,7 +4,7 @@
 
 // Use localhost for development, production URL for deployed version
 const API_BASE_URL = process.env.REACT_APP_API_URL || 
-  (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://ai-yushas-growth-backlog-generator.onrender.com');
+  (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://ai-growth-backlog-generator.onrender.com');
 
 // Fallback for when backend is not available
 const isBackendAvailable = async () => {
