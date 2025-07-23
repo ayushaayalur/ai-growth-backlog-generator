@@ -2,15 +2,28 @@
  * API service for communicating with the backend
  */
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://ai-yushas-growth-backlog-generator.onrender.com';
+// Use localhost for development, production URL for deployed version
+const API_BASE_URL = process.env.REACT_APP_API_URL || 
+  (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://ai-yushas-growth-backlog-generator.onrender.com');
 
 // Fallback for when backend is not available
 const isBackendAvailable = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/health`, { 
-      method: 'GET',
-      timeout: 5000 
+    // Create a timeout promise
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('Health check timeout')), 5000);
     });
+
+    // Create the fetch promise
+    const fetchPromise = fetch(`${API_BASE_URL}/health`, { 
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+      }
+    });
+
+    // Race between fetch and timeout
+    const response = await Promise.race([fetchPromise, timeoutPromise]);
     return response.ok;
   } catch (error) {
     console.warn('Backend health check failed:', error);
