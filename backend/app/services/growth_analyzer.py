@@ -24,7 +24,8 @@ class GrowthAnalyzer:
             api_key=openai_api_key,
             model="gpt-4o-mini",
             temperature=0.1,
-            max_tokens=2000
+            max_tokens=1500,  # Reduced for faster response
+            request_timeout=60  # 60 second timeout
         )
         
         # Growth best practices database
@@ -444,7 +445,7 @@ class GrowthAnalyzer:
             print("Making OpenAI Vision API call...")
             
             response = self.client.chat.completions.create(
-                model="gpt-4o",
+                model="gpt-4o-mini",  # Use faster model
                 messages=[
                     {
                         "role": "user",
@@ -459,7 +460,8 @@ class GrowthAnalyzer:
                         ]
                     }
                 ],
-                max_tokens=1500
+                max_tokens=1000,  # Reduced for faster response
+                timeout=30  # 30 second timeout
             )
             
             description = response.choices[0].message.content
@@ -625,13 +627,14 @@ class GrowthAnalyzer:
             # Generate ideas using OpenAI directly
             print("🤖 Making OpenAI API call for idea generation...")
             response = self.client.chat.completions.create(
-                model="gpt-4o",
+                model="gpt-4o-mini",  # Use faster model
                 messages=[
                     {"role": "system", "content": "You are a senior Growth Product Manager and CRO expert. Generate EXACTLY 20 specific, actionable growth ideas based on the image analysis. Each idea must be specific to what you observe in the image."},
                     {"role": "user", "content": specific_prompt}
                 ],
                 temperature=0.7,
-                max_tokens=4000
+                max_tokens=3000,  # Reduced for faster response
+                timeout=45  # 45 second timeout
             )
             
             content = response.choices[0].message.content
