@@ -24,8 +24,7 @@ class GrowthAnalyzer:
             api_key=openai_api_key,
             model="gpt-4o-mini",
             temperature=0.1,
-            max_tokens=1500,  # Reduced for faster response
-            request_timeout=60  # 60 second timeout
+            max_tokens=2000
         )
         
         # Growth best practices database
@@ -230,39 +229,26 @@ class GrowthAnalyzer:
             }
     
     def _extract_visual_elements(self, image_path: str) -> Dict[str, Any]:
-        """Extract visual elements using simplified approach"""
+        """Extract visual elements using computer vision"""
         try:
-            print(f"Extracting visual elements from: {image_path}")
+            # Load image
+            image = cv2.imread(image_path)
+            if image is None:
+                raise ValueError("Could not load image")
             
-            # Use PIL instead of OpenCV for basic info
-            from PIL import Image
+            # Convert to RGB
+            image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             
-            # Load image with PIL
-            pil_image = Image.open(image_path)
-            
-            # Get image dimensions
-            width, height = pil_image.size
-            
-            # Simplified visual elements (avoid heavy OpenCV processing)
+            # Detect UI elements
             elements = {
-                'buttons': [{'type': 'button', 'position': {'x': 100, 'y': 200, 'width': 150, 'height': 40}}],
-                'forms': [{'type': 'form_field', 'position': {'x': 50, 'y': 300, 'width': 300, 'height': 30}}],
-                'headlines': [{'type': 'headline', 'position': {'x': 0, 'y': 0, 'width': width, 'height': 60}}],
-                'images': [{'type': 'image', 'count': 1}],
-                'layout': {
-                    'dimensions': {'width': width, 'height': height},
-                    'aspect_ratio': width / height,
-                    'is_mobile': width < 768,
-                    'sections': [
-                        {'type': 'header', 'position': {'y_start': 0, 'y_end': 100}},
-                        {'type': 'hero', 'position': {'y_start': 100, 'y_end': 400}},
-                        {'type': 'content', 'position': {'y_start': 400, 'y_end': height}}
-                    ]
-                },
-                'colors': {'primary': 'blue', 'secondary': 'gray'}
+                'buttons': self._detect_buttons(image_rgb),
+                'forms': self._detect_forms(image_rgb),
+                'headlines': self._detect_headlines(image_rgb),
+                'images': self._detect_images(image_rgb),
+                'layout': self._analyze_layout(image_rgb),
+                'colors': self._analyze_colors(image_rgb)
             }
             
-            print(f"Extracted simplified visual elements: {width}x{height}")
             return elements
             
         except Exception as e:
@@ -364,30 +350,15 @@ class GrowthAnalyzer:
             return {'dominant_colors': [], 'color_count': 0}
     
     def _extract_text(self, image_path: str) -> str:
-        """Extract text from image using simplified approach"""
+        """Extract text from image using OCR"""
         try:
-            print(f"Extracting text from: {image_path}")
-            
-            # Simplified text extraction - return placeholder for now
-            # This avoids Tesseract dependency issues
-            placeholder_text = """
-            Welcome to our platform
-            Get started today
-            Sign up now
-            Learn more
-            Contact us
-            About us
-            Features
-            Pricing
-            Testimonials
-            FAQ
-            """
-            
-            print(f"Using placeholder text: {len(placeholder_text)} characters")
-            return placeholder_text.strip()
-            
+            # Use pytesseract for OCR
+            image = Image.open(image_path)
+            text = pytesseract.image_to_string(image)
+            return text.strip()
         except Exception as e:
-            print(f"Text extraction failed: {e}")
+            print(f"OCR failed: {e}")
+            # Return a placeholder text instead of empty string
             return "Landing page content - text extraction unavailable"
     
     def _generate_image_description(self, image_path: str) -> str:
@@ -473,7 +444,7 @@ class GrowthAnalyzer:
             print("Making OpenAI Vision API call...")
             
             response = self.client.chat.completions.create(
-                model="gpt-4o-mini",  # Use faster model
+                model="gpt-4o",
                 messages=[
                     {
                         "role": "user",
@@ -488,8 +459,7 @@ class GrowthAnalyzer:
                         ]
                     }
                 ],
-                max_tokens=1000,  # Reduced for faster response
-                timeout=30  # 30 second timeout
+                max_tokens=1500
             )
             
             description = response.choices[0].message.content
@@ -655,14 +625,13 @@ class GrowthAnalyzer:
             # Generate ideas using OpenAI directly
             print("🤖 Making OpenAI API call for idea generation...")
             response = self.client.chat.completions.create(
-                model="gpt-4o-mini",  # Use faster model
+                model="gpt-4o",
                 messages=[
                     {"role": "system", "content": "You are a senior Growth Product Manager and CRO expert. Generate EXACTLY 20 specific, actionable growth ideas based on the image analysis. Each idea must be specific to what you observe in the image."},
                     {"role": "user", "content": specific_prompt}
                 ],
                 temperature=0.7,
-                max_tokens=3000,  # Reduced for faster response
-                timeout=45  # 45 second timeout
+                max_tokens=4000
             )
             
             content = response.choices[0].message.content
