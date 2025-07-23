@@ -24,7 +24,7 @@ class GrowthAnalyzer:
             api_key=openai_api_key,
             model="gpt-4o-mini",
             temperature=0.1,
-            max_tokens=2000
+            max_tokens=1500
         )
         
         # Growth best practices database
@@ -90,12 +90,7 @@ class GrowthAnalyzer:
 
             CRITICAL: Base your ideas on what you actually see in the image. Reference specific elements, text, colors, layout, and design choices. Use specific growth tactics, not generic suggestions.
             
-            MANDATORY SPECIFICITY RULES:
-            1. Every idea MUST quote exact text from the image description
-            2. Every idea MUST reference specific colors, positions, or elements mentioned
-            3. Every idea MUST start with "Based on [specific element from image], [specific action]"
-            4. Every idea MUST include the exact current text/color/element being changed
-            5. Every idea MUST specify the exact new text/color/element to implement
+            MANDATORY: Every idea MUST reference specific elements from the image description and start with "Based on [specific element], [specific action]"
             
             EXAMPLE FORMAT:
             - "Based on the hero headline 'Get Started Today', change it to 'Save 3 Hours Daily - Start Now'"
@@ -408,69 +403,36 @@ class GrowthAnalyzer:
             print(f"Image processed: {pil_image.size[0]}x{pil_image.size[1]} RGB JPEG")
             print(f"Image data size: {len(image_data)} characters")
             
-            # Create detailed prompt for image analysis
+            # Create optimized prompt for image analysis
             prompt = """
-            You are a CRO expert analyzing a landing page screenshot. Your job is to provide an EXTREMELY DETAILED description of what you see in this image.
+            Analyze this landing page screenshot for CRO optimization. Provide a concise but specific description.
 
-            CRITICAL REQUIREMENTS:
-            1. QUOTE EXACT TEXT - Use quotation marks around every piece of text you see
-            2. DESCRIBE SPECIFIC COLORS - Use color names, hex codes, or RGB values
-            3. MENTION EXACT LOCATIONS - "top left", "center", "bottom right", etc.
-            4. REFERENCE SPECIFIC ELEMENTS - "the blue button", "the red headline", "the gray form"
-            5. BE OBSESSIVELY DETAILED - Every element, every word, every color matters
+            REQUIREMENTS:
+            - Quote exact text in quotes
+            - Mention specific colors and locations
+            - Focus on conversion-relevant elements
 
-            STRUCTURE YOUR RESPONSE LIKE THIS:
-
-            **PAGE OVERVIEW:**
-            - Page type: [e.g., SaaS landing page, e-commerce product page, course sales page]
-            - Primary business: [what they're selling/offering]
-            - Main goal: [what action they want visitors to take]
+            STRUCTURE:
+            **PAGE TYPE:** [SaaS/e-commerce/course/etc.] - [business purpose]
 
             **HERO SECTION:**
-            - Main headline: "[EXACT TEXT IN QUOTES]"
-            - Subheadline: "[EXACT TEXT IN QUOTES]"
-            - Primary CTA button: "[EXACT TEXT]" in [color] color, positioned [location]
-            - Background: [describe background, colors, images]
-            - Layout: [how elements are arranged]
+            - Headline: "[EXACT TEXT]"
+            - Subheadline: "[EXACT TEXT]"
+            - CTA: "[EXACT TEXT]" [color] [position]
 
-            **CONTENT SECTIONS:**
-            - Section 1: "[SECTION TITLE]" - "[EXACT TEXT CONTENT]"
-            - Section 2: "[SECTION TITLE]" - "[EXACT TEXT CONTENT]"
-            - Section 3: "[SECTION TITLE]" - "[EXACT TEXT CONTENT]"
-            [Continue for all visible sections]
+            **KEY ELEMENTS:**
+            - Buttons: [list with exact text and colors]
+            - Forms: [fields and labels]
+            - Trust signals: [badges, testimonials, etc.]
+            - Social proof: [logos, reviews, numbers]
 
-            **UI ELEMENTS:**
-            - Navigation: [describe menu items, links, positioning]
-            - Forms: [number of fields, field labels, validation messages]
-            - Images: [describe all images, their content, positioning]
-            - Icons: [describe icons, their meaning, placement]
-            - Buttons: [list all buttons with exact text and colors]
+            **TEXT QUOTES:**
+            [List key text elements in quotes]
 
-            **DESIGN DETAILS:**
-            - Color scheme: [primary colors, secondary colors, accent colors]
-            - Typography: [font sizes, weights, hierarchy]
-            - Spacing: [describe padding, margins, layout gaps]
-            - Visual hierarchy: [what draws attention first, second, third]
+            **CONVERSION ISSUES:**
+            [2-3 main barriers to conversion]
 
-            **CONVERSION ELEMENTS:**
-            - Trust signals: [badges, certifications, guarantees, testimonials]
-            - Social proof: [customer logos, reviews, case studies, numbers]
-            - Urgency/scarcity: [timers, limited offers, stock indicators]
-            - Risk reducers: [money-back guarantees, free trials, demos]
-
-            **SPECIFIC TEXT QUOTES:**
-            List every piece of text you can read, exactly as it appears:
-            - "[EXACT TEXT 1]"
-            - "[EXACT TEXT 2]"
-            - "[EXACT TEXT 3]"
-            [Continue for all readable text]
-
-            **CONVERSION BARRIERS:**
-            - What might prevent someone from converting?
-            - What's unclear or confusing?
-            - What's missing that would help conversion?
-
-            REMEMBER: This description will be used to generate specific, actionable CRO ideas. The more detail you provide, the better the ideas will be. Quote every piece of text, describe every color, mention every element.
+            Keep it focused and actionable for CRO idea generation.
             """
             
             print("Making OpenAI Vision API call...")
@@ -491,7 +453,8 @@ class GrowthAnalyzer:
                         ]
                     }
                 ],
-                max_tokens=1500
+                max_tokens=800,
+                temperature=0.1
             )
             
             description = response.choices[0].message.content
@@ -765,7 +728,7 @@ class GrowthAnalyzer:
                 model="gpt-4o",
                 messages=[{"role": "user", "content": additional_prompt}],
                 temperature=0.8,
-                max_tokens=2000
+                max_tokens=1500
             )
             
             content = response.choices[0].message.content
