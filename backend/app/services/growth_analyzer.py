@@ -90,6 +90,18 @@ class GrowthAnalyzer:
 
             CRITICAL: Base your ideas on what you actually see in the image. Reference specific elements, text, colors, layout, and design choices. Use specific growth tactics, not generic suggestions.
             
+            MANDATORY SPECIFICITY RULES:
+            1. Every idea MUST quote exact text from the image description
+            2. Every idea MUST reference specific colors, positions, or elements mentioned
+            3. Every idea MUST start with "Based on [specific element from image], [specific action]"
+            4. Every idea MUST include the exact current text/color/element being changed
+            5. Every idea MUST specify the exact new text/color/element to implement
+            
+            EXAMPLE FORMAT:
+            - "Based on the hero headline 'Get Started Today', change it to 'Save 3 Hours Daily - Start Now'"
+            - "Based on the blue CTA button 'Sign Up', change it to orange and update text to 'Get Free Trial'"
+            - "Based on the gray form field 'Email', add placeholder text 'Enter your work email'"
+            
             Return as JSON array with these fields:
             - title, description, hypothesis, category, reasoning, implementation, success_metrics, priority
             """
@@ -398,47 +410,67 @@ class GrowthAnalyzer:
             
             # Create detailed prompt for image analysis
             prompt = """
-            Analyze this landing page screenshot in detail for CRO optimization purposes. Provide a comprehensive description including:
+            You are a CRO expert analyzing a landing page screenshot. Your job is to provide an EXTREMELY DETAILED description of what you see in this image.
 
-            1. **Page Structure**: Header, hero section, content sections, footer layout
-            2. **Key UI Elements**: 
-               - Buttons and CTAs (location, color, size, copy, prominence)
-               - Forms and input fields (number of fields, labels, validation indicators)
-               - Navigation menu and links (placement, style)
-               - Images, logos, and graphics (relevance, quality, placement)
-            3. **Content Analysis**:
-               - Headlines and subheadings (tone, length, messaging, hierarchy)
-               - Body text and descriptions (clarity, benefit focus)
-               - Value propositions and benefits (how clearly communicated)
-               - Social proof elements (testimonials, reviews, customer logos, case studies)
-            4. **Design Elements**:
-               - Color scheme and contrast (effectiveness, accessibility)
-               - Typography and font hierarchy (readability, emphasis)
-               - Spacing and layout (clarity, flow, visual breathing room)
-               - Visual hierarchy and user flow (where eyes are drawn)
-            5. **Conversion Elements**:
-               - Primary and secondary CTAs (effectiveness, placement)
-               - Trust signals (badges, guarantees, security indicators, certifications)
-               - Urgency and scarcity elements (timers, limited offers, stock indicators)
-               - Social proof placement and effectiveness
-            6. **Technical Aspects**:
-               - Mobile responsiveness indicators
-               - Page loading elements and performance signals
-               - Form validation and user experience
-               - Accessibility considerations
-            7. **Potential Issues**:
-               - Areas that could be improved for conversion
-               - Conversion barriers and friction points
-               - User experience problems and confusion points
-               - Missing elements that could boost conversion
+            CRITICAL REQUIREMENTS:
+            1. QUOTE EXACT TEXT - Use quotation marks around every piece of text you see
+            2. DESCRIBE SPECIFIC COLORS - Use color names, hex codes, or RGB values
+            3. MENTION EXACT LOCATIONS - "top left", "center", "bottom right", etc.
+            4. REFERENCE SPECIFIC ELEMENTS - "the blue button", "the red headline", "the gray form"
+            5. BE OBSESSIVELY DETAILED - Every element, every word, every color matters
 
-            CRITICAL: Be extremely specific about what you observe. Quote exact text, describe exact colors, mention specific button copy, reference specific sections by name. This description will be used to generate targeted, actionable CRO ideas that can make money for growth teams.
+            STRUCTURE YOUR RESPONSE LIKE THIS:
 
-            Format your response with specific quotes and references like:
-            - "The hero headline reads '[exact text]' in [color] font"
-            - "The primary CTA button says '[exact text]' and is [color]"
-            - "There's a section titled '[exact text]' with [description]"
-            - "The page uses [specific colors] as the primary color scheme"
+            **PAGE OVERVIEW:**
+            - Page type: [e.g., SaaS landing page, e-commerce product page, course sales page]
+            - Primary business: [what they're selling/offering]
+            - Main goal: [what action they want visitors to take]
+
+            **HERO SECTION:**
+            - Main headline: "[EXACT TEXT IN QUOTES]"
+            - Subheadline: "[EXACT TEXT IN QUOTES]"
+            - Primary CTA button: "[EXACT TEXT]" in [color] color, positioned [location]
+            - Background: [describe background, colors, images]
+            - Layout: [how elements are arranged]
+
+            **CONTENT SECTIONS:**
+            - Section 1: "[SECTION TITLE]" - "[EXACT TEXT CONTENT]"
+            - Section 2: "[SECTION TITLE]" - "[EXACT TEXT CONTENT]"
+            - Section 3: "[SECTION TITLE]" - "[EXACT TEXT CONTENT]"
+            [Continue for all visible sections]
+
+            **UI ELEMENTS:**
+            - Navigation: [describe menu items, links, positioning]
+            - Forms: [number of fields, field labels, validation messages]
+            - Images: [describe all images, their content, positioning]
+            - Icons: [describe icons, their meaning, placement]
+            - Buttons: [list all buttons with exact text and colors]
+
+            **DESIGN DETAILS:**
+            - Color scheme: [primary colors, secondary colors, accent colors]
+            - Typography: [font sizes, weights, hierarchy]
+            - Spacing: [describe padding, margins, layout gaps]
+            - Visual hierarchy: [what draws attention first, second, third]
+
+            **CONVERSION ELEMENTS:**
+            - Trust signals: [badges, certifications, guarantees, testimonials]
+            - Social proof: [customer logos, reviews, case studies, numbers]
+            - Urgency/scarcity: [timers, limited offers, stock indicators]
+            - Risk reducers: [money-back guarantees, free trials, demos]
+
+            **SPECIFIC TEXT QUOTES:**
+            List every piece of text you can read, exactly as it appears:
+            - "[EXACT TEXT 1]"
+            - "[EXACT TEXT 2]"
+            - "[EXACT TEXT 3]"
+            [Continue for all readable text]
+
+            **CONVERSION BARRIERS:**
+            - What might prevent someone from converting?
+            - What's unclear or confusing?
+            - What's missing that would help conversion?
+
+            REMEMBER: This description will be used to generate specific, actionable CRO ideas. The more detail you provide, the better the ideas will be. Quote every piece of text, describe every color, mention every element.
             """
             
             print("Making OpenAI Vision API call...")
