@@ -49,6 +49,8 @@ async def analyze_screenshot(file: UploadFile = File(...)):
     Analyze a screenshot and generate growth backlog with ICE scores
     """
     try:
+        print(f"Received file: {file.filename}, content_type: {file.content_type}")
+        
         # Validate file type
         if not file.content_type.startswith('image/'):
             raise HTTPException(status_code=400, detail="File must be an image")
@@ -61,6 +63,7 @@ async def analyze_screenshot(file: UploadFile = File(...)):
         
         try:
             print(f"Starting analysis of file: {temp_file_path}")
+            print(f"File size: {len(content)} bytes")
             
             # Analyze the screenshot
             analysis_result = growth_analyzer.analyze_landing_page(temp_file_path)
@@ -74,13 +77,27 @@ async def analyze_screenshot(file: UploadFile = File(...)):
                 metadata=analysis_result['metadata']
             )
             
+        except Exception as analysis_error:
+            print(f"Analysis error: {str(analysis_error)}")
+            print(f"Error type: {type(analysis_error)}")
+            import traceback
+            print(f"Traceback: {traceback.format_exc()}")
+            raise HTTPException(status_code=500, detail=f"Analysis failed: {str(analysis_error)}")
+            
         finally:
             # Clean up temporary file
             if os.path.exists(temp_file_path):
                 os.unlink(temp_file_path)
                 
+    except HTTPException:
+        # Re-raise HTTP exceptions as-is
+        raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")
+        print(f"Unexpected error: {str(e)}")
+        print(f"Error type: {type(e)}")
+        import traceback
+        print(f"Traceback: {traceback.format_exc()}")
+        raise HTTPException(status_code=500, detail=f"Unexpected error: {str(e)}")
 
 @app.get("/health")
 async def health_check():
