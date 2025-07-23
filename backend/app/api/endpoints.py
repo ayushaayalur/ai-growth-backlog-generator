@@ -28,15 +28,9 @@ app.add_middleware(
 )
 
 # Initialize the growth analyzer
-# In production, you'd get this from environment variables
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "your-openai-api-key-here")
-print("OpenAI API key status: " + ("Loaded" if OPENAI_API_KEY and OPENAI_API_KEY != "your-openai-api-key-here" else "Not found"))
-
-if not OPENAI_API_KEY or OPENAI_API_KEY == "your-openai-api-key-here":
-    print("⚠️  WARNING: Please set your OpenAI API key in the .env file")
-    print("   Example: OPENAI_API_KEY=your-actual-key-here")
-else:
-    print(f"✅ OpenAI API key loaded successfully: {OPENAI_API_KEY[:10]}...")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+if not OPENAI_API_KEY:
+    raise ValueError("OPENAI_API_KEY environment variable is required")
 
 growth_analyzer = GrowthAnalyzer(OPENAI_API_KEY)
 
