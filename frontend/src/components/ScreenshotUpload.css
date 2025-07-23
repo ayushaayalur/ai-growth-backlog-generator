@@ -132,6 +132,7 @@
   .upload-area {
     padding: 30px 15px;
     min-height: 150px;
+    touch-action: manipulation;
   }
   
   .upload-icon {
@@ -140,5 +141,41 @@
   
   .preview-image {
     max-height: 200px;
+  }
+  
+  .upload-button {
+    padding: 16px 28px;
+    font-size: 18px;
+    min-height: 44px; /* iOS minimum touch target */
+  }
+  
+  .remove-button {
+    padding: 14px 24px;
+    font-size: 16px;
+    min-height: 44px; /* iOS minimum touch target */
+  }
+  
+  .file-info {
+    padding: 15px;
+  }
+}
+
+/* Mobile-specific improvements */
+@media (max-width: 480px) {
+  .screenshot-upload {
+    padding: 10px;
+  }
+  
+  .upload-area {
+    padding: 25px 10px;
+    min-height: 120px;
+  }
+  
+  .upload-content p {
+    font-size: 14px;
+  }
+  
+  .file-types {
+    font-size: 12px;
   }
 } 
