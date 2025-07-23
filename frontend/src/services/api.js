@@ -2,7 +2,7 @@
  * API service for communicating with the backend
  */
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://ai-yushas-growth-backlog-generator.onrender.com';
 
 export const apiService = {
   /**

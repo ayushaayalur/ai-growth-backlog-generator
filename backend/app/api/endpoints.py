@@ -21,7 +21,11 @@ app = FastAPI(title="AI Growth Backlog Generator API")
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # React dev server
+    allow_origins=[
+        "http://localhost:3000",  # React dev server
+        "https://ai-yushas-growth-backlog-generator-ui.onrender.com",  # Production frontend
+        "https://ai-yushas-growth-backlog-generator-ui.onrender.com/",  # Production frontend with trailing slash
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
