@@ -18,18 +18,30 @@ from app.services.growth_analyzer import GrowthAnalyzer
 
 app = FastAPI(title="AI Growth Backlog Generator API")
 
-# Add CORS middleware
+# Get frontend URL from environment or use default
+FRONTEND_URL = os.getenv("FRONTEND_URL", "https://ai-yushas-growth-backlog-generator-ui.onrender.com")
+
+# Add CORS middleware with more permissive settings for debugging
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",  # React dev server
         "https://ai-yushas-growth-backlog-generator-ui.onrender.com",  # Production frontend
         "https://ai-yushas-growth-backlog-generator-ui.onrender.com/",  # Production frontend with trailing slash
+        FRONTEND_URL,  # Environment variable frontend URL
+        "*"  # Temporary: Allow all origins for debugging
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Add startup event to log CORS configuration
+@app.on_event("startup")
+async def startup_event():
+    print(f"FastAPI app starting up...")
+    print(f"CORS configured for frontend: {FRONTEND_URL}")
+    print(f"OpenAI API Key configured: {'Yes' if os.getenv('OPENAI_API_KEY') else 'No'}")
 
 # Initialize the growth analyzer
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -102,4 +114,9 @@ async def analyze_screenshot(file: UploadFile = File(...)):
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
-    return {"status": "healthy", "service": "AI Growth Backlog Generator"} 
+    return {"status": "healthy", "service": "AI Growth Backlog Generator"}
+
+@app.get("/")
+async def root():
+    """Root endpoint to verify the API is running"""
+    return {"message": "AI Growth Backlog Generator API is running", "docs_url": "/docs"} 

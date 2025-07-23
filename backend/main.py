@@ -1,5 +1,6 @@
 """
 Main entry point for the AI Growth Backlog Generator API
+For local development only - production uses gunicorn with app.py
 """
 
 import os
@@ -14,7 +15,9 @@ load_dotenv()
 
 from app.api.endpoints import app
 
-# This is needed for gunicorn to find the app
+# This is for local development only
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000) 
+    print("Starting FastAPI development server...")
+    print(f"Frontend URL: {os.getenv('FRONTEND_URL', 'https://ai-yushas-growth-backlog-generator-ui.onrender.com')}")
+    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True) 
