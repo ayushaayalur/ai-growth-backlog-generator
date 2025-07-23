@@ -48,22 +48,26 @@ class GrowthAnalyzer:
             - PROFITABLE (can generate measurable revenue impact)
             - TACTICAL (uses specific growth tactics, not generic "optimize" statements)
 
+            MANDATORY: Every idea MUST reference specific elements from the image description. Start each idea with "Based on [specific element from image], [specific action]"
+
             AVOID GENERIC STATEMENTS LIKE:
             - "Optimize" (without saying what to change)
             - "Improve" (without specific tactics)
             - "Better" (without clear direction)
             - "Enhance" (without specific changes)
+            - "Add FAQ section" (without referencing what's already there)
+            - "Add testimonials" (without saying where and what type)
 
             INSTEAD, USE SPECIFIC GROWTH TACTICS:
-            - "Change headline from [current] to [specific benefit-focused version]"
-            - "Add [specific social proof element] below [specific section]"
-            - "Replace [current CTA] with [specific action-oriented copy]"
-            - "Add [specific trust signal] next to [specific element]"
-            - "Move [specific element] from [current position] to [better position]"
-            - "Add [specific urgency element] with [specific copy]"
+            - "Based on the hero headline '[current text]', change it to '[specific benefit-focused version]'"
+            - "Based on the CTA button '[current text]', replace it with '[specific action-oriented copy]'"
+            - "Based on the [specific section], add [specific social proof element] below it"
+            - "Based on the [specific element], add [specific trust signal] next to it"
+            - "Based on the [current layout], move [specific element] from [current position] to [better position]"
+            - "Based on the [specific area], add [specific urgency element] with [specific copy]"
             
             For each idea, provide:
-            1. Title: Specific action with clear direction (e.g., "Change hero headline from 'Get Started' to 'Save 3 Hours Daily'")
+            1. Title: Specific action with clear direction (e.g., "Based on hero headline 'Get Started', change to 'Save 3 Hours Daily'")
             2. Description: What exactly to change and why it will help (reference specific elements from the image)
             3. Hypothesis: Specific, testable statement with expected lift (e.g., "Benefit-focused headline will increase conversion by 25%")
             4. Category: copy/design/ux/technical/layout/trust/social_proof
@@ -428,7 +432,13 @@ class GrowthAnalyzer:
                - User experience problems and confusion points
                - Missing elements that could boost conversion
 
-            Be extremely specific about what you observe. This description will be used to generate targeted, actionable CRO ideas that can make money for growth teams.
+            CRITICAL: Be extremely specific about what you observe. Quote exact text, describe exact colors, mention specific button copy, reference specific sections by name. This description will be used to generate targeted, actionable CRO ideas that can make money for growth teams.
+
+            Format your response with specific quotes and references like:
+            - "The hero headline reads '[exact text]' in [color] font"
+            - "The primary CTA button says '[exact text]' and is [color]"
+            - "There's a section titled '[exact text]' with [description]"
+            - "The page uses [specific colors] as the primary color scheme"
             """
             
             print("Making OpenAI Vision API call...")
