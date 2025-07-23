@@ -18,22 +18,22 @@ from app.services.growth_analyzer import GrowthAnalyzer
 
 app = FastAPI(title="AI Growth Backlog Generator API")
 
-# Get frontend URL from environment or use default
+# Get frontend URL from environment or use confirmed working default
 FRONTEND_URL = os.getenv("FRONTEND_URL", "https://ai-yushas-growth-backlog-generator-ui.onrender.com")
 
-# Add CORS middleware with more permissive settings for debugging
+# Add CORS middleware with comprehensive origins for both development and production
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",  # React dev server
-        "https://ai-yushas-growth-backlog-generator-ui.onrender.com",  # Production frontend
-        "https://ai-yushas-growth-backlog-generator-ui.onrender.com/",  # Production frontend with trailing slash
+        "http://127.0.0.1:3000",  # Alternative localhost
+        "https://ai-yushas-growth-backlog-generator-ui.onrender.com",  # Confirmed frontend URL
         FRONTEND_URL,  # Environment variable frontend URL
-        "*"  # Temporary: Allow all origins for debugging
     ],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 # Add startup event to log CORS configuration
