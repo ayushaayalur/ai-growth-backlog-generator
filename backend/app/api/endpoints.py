@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-from ..services.growth_analyzer import GrowthAnalyzer
+from app.services.growth_analyzer import GrowthAnalyzer
 
 app = FastAPI(title="AI Growth Backlog Generator API")
 
