@@ -1,6 +1,6 @@
 """
 Main entry point for the AI Growth Backlog Generator API
-For local development only - production uses gunicorn with app.py
+Works for both local development and production deployment
 """
 
 import os
@@ -12,6 +12,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 # Load environment variables from .env file
 load_dotenv()
+
+# Import the FastAPI app - this makes it available to gunicorn as main:app
+from app.api.endpoints import app
 
 # This is for local development only
 if __name__ == "__main__":
